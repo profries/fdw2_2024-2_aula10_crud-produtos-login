@@ -1,0 +1,36 @@
+<div class="container">
+    <h3>Tabela de Produtos</h3>
+
+    <div class="mb-3">
+        <label for="nome" class="form-label">Pesquisa:</label>
+        <input [(ngModel)]="nomePesquisado" class="form-control"
+            id="nome" placeholder="nome do produto ...">
+    </div>
+
+    <h4 *ngIf="(listaProdutos | filtroPesquisa:nomePesquisado).length == 0">
+        Nao ha produtos cadastrados!
+    </h4>
+    <table class="table table-striped" *ngIf="(listaProdutos| filtroPesquisa:nomePesquisado).length > 0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NOME</th>
+                <th>PRECO</th>
+                <th>MARCA</th>
+                <th>VALIDADE</th>
+                <th>AÇÃO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let produto of listaProdutos | filtroPesquisa:nomePesquisado">
+                <td>{{produto.id}}</td>
+                <td>{{produto.nome}}</td>
+                <td>{{produto.preco | moeda}}</td>
+                <td>{{produto.marca | uppercase}}</td>
+                <td>{{produto.dataValidade | date:'dd/MM/yyyy'}}</td>
+                <td><a class='btn btn-primary' routerLink="/edit/{{produto.id}}">Editar</a></td>
+                <td><a class='btn btn-primary' routerLink="/tabela" (click)="deletar(produto.id)" >Deletar</a></td>
+            </tr>    
+        </tbody>
+    </table>
+</div>

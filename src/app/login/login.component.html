@@ -1,0 +1,16 @@
+<div class="container login-container">
+    <h3>Login</h3>
+    <div class="form-group">
+        <input [(ngModel)]="usuario.usuario" type="text" class="form-control textfield" placeholder="Digite seu usuário" value="" />
+    </div>
+    <div class="form-group">
+        <input [(ngModel)]="usuario.senha" type="password" class="form-control textfield" placeholder="Digite sua senha" value="" />
+    </div>
+    <div class="form-group">
+        <button (click)="realizarLogin()" class="btnSubmit">Login</button>
+    </div>
+    <p *ngIf="erro" class="text-danger">Usuário ou Senha Inválidos</p>
+    <div class="form-group">
+        <a href="#" class="ForgetPwd">Forget Password?</a>
+    </div>
+</div>
