@@ -6,37 +6,57 @@ import { Produto } from './produto';
 const BASE_API = "http://localhost:3000/api/produtos";
 const httpOptions = {
   headers: new HttpHeaders({
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   })
 }
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutoApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {     
+  }
 
   listar(): Observable<Produto[]> {
-    return this.http.get<Produto[]>(BASE_API);
+    this.updateToken();
+    return this.http.get<Produto[]>(BASE_API, httpOptions);
   }
 
   buscarPorId(id: number): Observable<Produto> {
     const uri = `${BASE_API}/${id}`;
-    return this.http.get<Produto>(uri);
+    this.updateToken();
+    return this.http.get<Produto>(uri, httpOptions);
   }
 
   inserir(produto: Produto): Observable<Produto> {
+    this.updateToken();
     return this.http.post(BASE_API, produto, httpOptions);
   }
 
   editar(id: number, produto:Produto): Observable<Produto> {
     const uri = `${BASE_API}/${id}`;
+    this.updateToken();
     return this.http.put<Produto>(uri,produto,httpOptions);
   }
 
   deletar(id: number): Observable<Produto> {
     const uri = `${BASE_API}/${id}`;
-    return this.http.delete<Produto>(uri);
+    this.updateToken();
+    return this.http.delete<Produto>(uri, httpOptions);
+  }
+  
+  updateToken() {
+    let token = sessionStorage.getItem("token");
+    if(!token){
+      token = "";
+    }
+    console.log("token",token);
+    httpOptions.headers =  new HttpHeaders({
+      "Content-Type": "application/json",
+      "token": token
+    })
   }
 }
